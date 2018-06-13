@@ -4,18 +4,23 @@ import YTSearch from 'youtube-api-search';
 import VideoList from './components/video_list';
 import SearchBar from './components/search_bar';
 import VideoDetail from './components/video_detail';
+const API_KEY = "AIzaSyDy2RXLjdGrcDg5EILjrlyTUEPc2ZdYnl0";
 
 class App extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { videos: [] };
+		//add the concept of a selected video, pass in this.state.selectedVideo
+		this.state = { 
+			videos: [],
+			selectedVideo: null
+		};
 
 		YTSearch({key: API_KEY, term: 'hockey'}, videos => {
-			this.setState({ videos });
-			// when we're using ES6, this will get resolved as this.setState({ videos: videos })
-			// this is just a little syntatic sugar and only works when the key and the prop
-			// are the same variable name. Try to get used to this as it will clean up your code in the long run.
+			this.setState({ 
+				videos: videos,
+				selectedVideo: videos[0]
+			});
 		});
 	}
 
@@ -23,7 +28,7 @@ class App extends Component {
 		return (
 			<div>
 				<SearchBar />
-				<VideoDetail video={this.state.videos[0]} />
+				<VideoDetail video={this.state.selectedVideo} />
 				<VideoList videos={this.state.videos} />
 			</div>
 		);
