@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import YTSearch from 'youtube-api-search';
-
 import SearchBar from './components/search_bar';
 
 
+class App extends Component {
+	constructor(props) {
+		super(props);
 
-YTSearch({key: API_KEY, term: 'surfboards'}, function(data) {
-	console.log(data);
-})
+		this.state = { videos: [] };
 
-const App = () => {
-	return (
-		<div>
-			<SearchBar />
-		</div>
-	);
+		YTSearch({key: API_KEY, term: 'surfboards'}, videos => {
+			this.setState({ videos });
+			// when we're using ES6, this will get resolved as this.setState({ videos: videos })
+			// this is just a little syntatic sugar and only works when the key and the prop
+			// are the same variable name. Try to get used to this as it will clean up your code in the long run.
+		});
+	}
+
+	render() {
+		return (
+			<div>
+				<SearchBar />
+			</div>
+		);
+	}
 }
 
 ReactDOM.render(<App />, document.querySelector('.container'));
