@@ -16,7 +16,7 @@ class App extends Component {
 			selectedVideo: null
 		};
 
-		YTSearch({key: API_KEY, term: 'hockey'}, videos => {
+		YTSearch({key: API_KEY, term: 'top 5 electric surfboards'}, videos => {
 			this.setState({ 
 				videos: videos,
 				selectedVideo: videos[0]
@@ -29,7 +29,11 @@ class App extends Component {
 			<div>
 				<SearchBar />
 				<VideoDetail video={this.state.selectedVideo} />
-				<VideoList videos={this.state.videos} />
+				<VideoList 
+					//this function has one purpose: to update app state; we pass it as a 
+					//property to VideoList
+					onVideoSelect={selectedVideo => this.setState({selectedVideo}) }
+					videos={this.state.videos} />
 			</div>
 		);
 	}
